@@ -1,0 +1,6 @@
+pandas
+numpy
+streamlit
+gensim
+st-star-rating
+IMDbPY
