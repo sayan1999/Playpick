@@ -1,6 +1,5 @@
 import pandas as pd
 import streamlit as st
-from gensim.models import Word2Vec
 import os, json, random
 import numpy as np
 from streamlit_star_rating import st_star_rating
