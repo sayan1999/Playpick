@@ -2,4 +2,3 @@ env/
 data/
 __pycahe__/
 .ipynb_checkpoints/
-model/corr.npy
