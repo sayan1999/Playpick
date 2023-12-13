@@ -241,8 +241,8 @@ if __name__ == "__main__":
                                         key="Star_" + movie,
                                     )
                                 )
-                            thumbnails.append(st.empty())
-                            thumbnail_link.append(movie)
+                            # thumbnails.append(st.empty())
+                            # thumbnail_link.append(movie)
 
                         form_submitted = st.form_submit_button("Submit")
 
@@ -264,9 +264,9 @@ if __name__ == "__main__":
                 st.text("Movies watched by you...")
                 st.write(str(get_user_movies(user)))
 
-                for plc, movie in zip(thumbnails, thumbnail_link):
-                    if get_cover_link(movie):
-                        plc.image(get_cover_link(movie))
+                # for plc, movie in zip(thumbnails, thumbnail_link):
+                #     if get_cover_link(movie):
+                #         plc.image(get_cover_link(movie))
 
             else:
                 st.text("Authentication failed")
