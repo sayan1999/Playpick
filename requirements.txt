@@ -4,3 +4,4 @@ streamlit
 st-star-rating
 IMDbPY
 tqdm
+pymongo

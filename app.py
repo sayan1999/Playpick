@@ -5,6 +5,8 @@ import numpy as np
 from streamlit_star_rating import st_star_rating
 import imdb, glob
 import datetime
+from db import DB
+
 
 N_REC = 40
 N_RANDOM = 10
@@ -16,9 +18,14 @@ def init():
     corr = pd.DataFrame(np.load("model/corr.npy"), columns=columns, index=columns)
     corr = corr[~corr.index.duplicated(keep="first")]
     moviesinfo = pd.read_csv("model/moviesinfo.csv")
-    return corr, moviesinfo.drop_duplicates(["title"], keep="first").sort_values(
-        "rating", ascending=False
-    ).set_index("title")
+    db = DB()
+    return (
+        db,
+        corr,
+        moviesinfo.drop_duplicates(["title"], keep="first")
+        .sort_values("rating", ascending=False)
+        .set_index("title"),
+    )
 
 
 #  **************************************************************** Recommendation logic ****************************************************
@@ -68,7 +75,7 @@ def get_movies():
 
 
 def get_users():
-    return [f.split("_", 1)[0] for f in os.listdir("users")]
+    return db.get_users()
 
 
 def create_user(user, passw):
@@ -77,40 +84,30 @@ def create_user(user, passw):
         return "empty user", False
     if "_" in user:
         return "dont use _ in username", False
-    if user in map(lambda x: x.split("_", 1)[0], os.listdir("users")):
+    if user in get_users():
         return "User already exists", False
     if passw.strip() == "":
         return "empty password", False
-    json.dump(
-        [],
-        open(os.path.join("users", user + "_" + passw + ".json"), "w+"),
-    )
+    db.create_user(user, passw)
     return "", True
 
 
 def validate_passw(user, passw):
-    if os.path.isfile(os.path.join("users", user + "_" + passw + ".json")):
-        return True
-    return False
+    return db.validate_passw(user, passw)
 
 
 def get_user_movies(user):
     return list(
         map(
             tuple,
-            json.load(
-                open(glob.glob(os.path.join("users", user + "_" + "*" + ".json"))[0])
-            ),
+            db.get_user_movies(user),
         )
     )
 
 
 def add_user_movies(user, movies):
     print(f"Saving {movies} for {user}")
-    return json.dump(
-        list(set(get_user_movies(user) + movies)),
-        open(glob.glob(os.path.join("users", user + "_" + "*" + ".json"))[0], "w+"),
-    )
+    return db.add_user_movies(user, list(set(get_user_movies(user) + movies)))
 
 
 def to_refresh():
@@ -123,14 +120,14 @@ def to_refresh():
 
 
 if __name__ == "__main__":
-    print("\n" * 3)
+    print("*" * 100, "\n")
     st.set_page_config(layout="wide", page_title="PlayPick")
     st.title("PlayPick")
     st.write(
         "**Confused? Which movie to watch next? I am PlayPick, I shall help you pick the best movie to watch next for You.**"
     )
 
-    corr, moviesinfo = init()
+    db, corr, moviesinfo = init()
 
     #  *********************************** User authentication ***********************************************
     user = st.selectbox(
