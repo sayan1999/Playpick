@@ -123,7 +123,10 @@ def to_refresh():
 
 @st.cache_data
 def get_cover_link(movie):
-    return IMDB.get_movie(IMDB.search_movie(movie)[0].getID())["cover url"]
+    try:
+        return IMDB.get_movie(IMDB.search_movie(movie)[0].getID())["cover url"]
+    except:
+        return None
 
 
 if __name__ == "__main__":
