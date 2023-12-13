@@ -19,7 +19,9 @@ def init():
     corr = corr[~corr.index.duplicated(keep="first")]
     moviesinfo = pd.read_csv("model/moviesinfo.csv")
     db = DB()
+    IMDB = imdb.IMDb()
     return (
+        IMDB,
         db,
         corr,
         moviesinfo.drop_duplicates(["title"], keep="first")
@@ -119,6 +121,11 @@ def to_refresh():
     ]
 
 
+@st.cache_data
+def get_cover_link(movie):
+    return IMDB.get_movie(IMDB.search_movie(movie)[0].getID())["cover url"]
+
+
 if __name__ == "__main__":
     print("*" * 100, "\n")
     st.set_page_config(layout="wide", page_title="PlayPick")
@@ -127,7 +134,7 @@ if __name__ == "__main__":
         "**Confused? Which movie to watch next? I am PlayPick, I shall help you pick the best movie to watch next for You.**"
     )
 
-    db, corr, moviesinfo = init()
+    IMDB, db, corr, moviesinfo = init()
 
     #  *********************************** User authentication ***********************************************
     user = st.selectbox(
@@ -194,6 +201,8 @@ if __name__ == "__main__":
 
                         selections = []
                         stars = []
+                        thumbnails = []
+                        thumbnail_link = []
 
                         col1, col2, col3, col4, col5 = st.columns([3, 4, 1, 1, 5])
                         col1.text("Title")
@@ -229,6 +238,9 @@ if __name__ == "__main__":
                                         key="Star_" + movie,
                                     )
                                 )
+                            thumbnails.append(st.empty())
+                            thumbnail_link.append(movie)
+
                         form_submitted = st.form_submit_button("Submit")
 
                 if form_submitted:
@@ -248,6 +260,10 @@ if __name__ == "__main__":
                 recommend = st.button("Recommend")
                 st.text("Movies watched by you...")
                 st.write(str(get_user_movies(user)))
+
+                for plc, movie in zip(thumbnails, thumbnail_link):
+                    if get_cover_link(movie):
+                        plc.image(get_cover_link(movie))
 
             else:
                 st.text("Authentication failed")
