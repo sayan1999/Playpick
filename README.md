@@ -1,6 +1,7 @@
 # Playpick
 
-Playpick: A persistent multi user collaborative movie recommendation web app
+## Playpick: A persistent multi user collaborative movie recommendation web app
+
 Persistent Recommendation System, MongoDB, Collaborative Filtering, Streamlit
 Live: https://pick-1-movie.streamlit.app 
 
