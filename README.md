@@ -5,4 +5,9 @@
 Persistent Recommendation System, MongoDB, Collaborative Filtering, Streamlit
 Live: https://pick-1-movie.streamlit.app 
 
-![PlayPick](<Screenshot from 2023-10-23 10-04-54.png>)
+## Metrics: Avg Precision@20=0.1   Avg Precision@100=0.208
+
+# [PlayPick](<UI.png>)
+
+# [Average precsion @ k](<eval.png>)
+
