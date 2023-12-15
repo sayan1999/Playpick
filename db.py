@@ -1,7 +1,8 @@
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
+import streamlit as st
 
-uri = "mongodb+srv://oxford:oxford@instantinopaul.grkjwvv.mongodb.net/?retryWrites=true&w=majority"
+uri = f"mongodb+srv://oxford:{st.secrets['password']}@instantinopaul.grkjwvv.mongodb.net/?retryWrites=true&w=majority"
 db_name = "playpick_db"
 cred_collections = "credentials"
 user_data = "userwatchlist"
