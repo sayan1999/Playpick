@@ -46,7 +46,7 @@ class DB:
         ).get("movies", [])
 
     def add_user_movies(self, user, movies):
-        self.user_data_client.update_one(
+        self.user_data_client.update_many(
             {"user_name": {"$regex": user}}, {"$push": {"movies": {"$each": movies}}}
         )
 
