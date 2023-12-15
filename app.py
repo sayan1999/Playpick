@@ -6,7 +6,7 @@ from streamlit_star_rating import st_star_rating
 import imdb, glob
 import datetime
 from db import DB
-import streamlit-analytics
+import streamlit_analytics
 
 
 N_REC = 40
