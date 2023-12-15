@@ -5,3 +5,4 @@ st-star-rating
 IMDbPY
 tqdm
 pymongo
+streamlit-analytics
