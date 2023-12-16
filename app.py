@@ -15,6 +15,7 @@ def load_numpy():
         "model/splits/corr*.split",
         "model/reconstructedcorr.npy",
     )
+    print(os.listdir("model"))
     return np.load("model/reconstructedcorr.npy")
 
 
