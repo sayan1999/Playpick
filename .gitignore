@@ -2,4 +2,5 @@ env/
 data/
 __pycahe__/
 .ipynb_checkpoints/
+corr.npy
 secrets.toml
