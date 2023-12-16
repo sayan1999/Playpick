@@ -3,4 +3,5 @@ data/
 __pycahe__/
 .ipynb_checkpoints/
 corr.npy
+reconstructedcorr.npy
 secrets.toml

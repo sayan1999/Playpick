@@ -7,6 +7,15 @@ import imdb, glob
 import datetime
 from db import DB
 import streamlit_analytics
+import pysplitter as pysp
+
+
+def load_numpy():
+    pysp.unsplit(
+        "model/splits/corr*.split",
+        "model/reconstructedcorr.npy",
+    )
+    return np.load("model/reconstructedcorr.npy")
 
 
 N_REC = 40
@@ -16,7 +25,7 @@ N_RANDOM = 10
 @st.cache_resource
 def init():
     columns = json.load(open("model/columns.json"))
-    corr = pd.DataFrame(np.load("model/corr.npy"), columns=columns, index=columns)
+    corr = pd.DataFrame(load_numpy(), columns=columns, index=columns)
     corr = corr[~corr.index.duplicated(keep="first")]
     moviesinfo = pd.read_csv("model/moviesinfo.csv")
     db = DB()
