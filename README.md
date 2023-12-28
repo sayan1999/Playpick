@@ -31,4 +31,6 @@ Harness the wisdom of the crowd to find movies you'll love! Playpick is a persis
 
 **Evaluation Metrics:**
 
+Metrics: Avg Precision@20=0.3795 Avg Precision@100=0.4604
+
 ![Average Precision @ k](eval.png)
